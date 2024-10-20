@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: springbootevent
+
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: ss123456ss1020@163.com
+    #password: JVsaadJ49X25c7V8
+    password: NTu7rhNZJ42YQzK5
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          enable: true
+          ssl:
+            # 设为true时 端口号设为 465 设为false时 端口号设为25
+            enable: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+        debug: true
+
+logging:
+  level:
+    root: WARN
+    org:
+      springframework:
+        web: DEBUG
+
+    com:
+      spring:
+        bootevent:
+          messageevent: debug
+
+message:
+  event:
+    message:
+      pool:
+        # 核心线程数，默认为8
+        core-size: 8
+        # 最大线程数
+        max-size: 10240
+        # 队列容量
+        queue-capacity: 102400
+        # 线程活 keep-alive 时间，默认是60（单位毫秒）
+        keep-alive: 100000
+      thread-name-prefix: messageThreadPoolExecutor
+      # sms
+      # email
