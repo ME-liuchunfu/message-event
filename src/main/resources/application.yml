@@ -7,7 +7,7 @@ spring:
     port: 465
     username: ss123456ss1020@163.com
     #password: JVsaadJ49X25c7V8
-    password: NTu7rhNZJ42YQzK5
+    password: xxx
     default-encoding: UTF-8
     properties:
       mail:
