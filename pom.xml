@@ -119,11 +119,13 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- 一下插件部署时候开启 -->
+            <!--<plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
                 <version>0.6.0</version>
@@ -134,17 +136,7 @@
                     <waitUntil>published</waitUntil>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <!-- Source -->
+            &lt;!&ndash; Source &ndash;&gt;
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -163,7 +155,7 @@
                     <useDefaultExcludes>true</useDefaultExcludes>
                 </configuration>
             </plugin>
-            <!-- Javadoc -->
+            &lt;!&ndash; Javadoc &ndash;&gt;
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -177,13 +169,13 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- GPG -->
+            &lt;!&ndash; GPG &ndash;&gt;
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.6</version>
                 <configuration>
-                    <!-- 改成你自己的路径 -->
+                    &lt;!&ndash; 改成你自己的路径 &ndash;&gt;
                     <executable>C:\Program Files (x86)\GnuPG\bin\gpg.exe</executable>
                 </configuration>
                 <executions>
@@ -194,7 +186,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>
