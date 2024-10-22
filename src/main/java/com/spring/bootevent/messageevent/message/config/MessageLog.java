@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 消息事件：消息配置中心，日志配置
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Getter
 @Setter

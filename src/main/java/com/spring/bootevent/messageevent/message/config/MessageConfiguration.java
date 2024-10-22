@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 /**
  * 消息事件：消息配置中心，包括线程池、
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Getter
 @Setter

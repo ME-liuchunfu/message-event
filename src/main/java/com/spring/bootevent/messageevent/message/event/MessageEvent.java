@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationEvent;
 /**
  * 消息事件：消息
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Getter
 @Setter

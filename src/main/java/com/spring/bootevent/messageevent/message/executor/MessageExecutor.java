@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * 事件驱动：消息执行器
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Slf4j
 public abstract class MessageExecutor {
@@ -36,13 +36,13 @@ public abstract class MessageExecutor {
 
     /**
      * 消息处理
-     * @param event
+     * @param event 事件
      */
     public abstract void onEvent(Object event);
 
     /**
      * 消息广播
-     * @param event
+     * @param event 事件
      */
     protected void message(Object event) {
         SpringUtil.publishEvent(event);

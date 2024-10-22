@@ -9,6 +9,14 @@
 
 ## 1、使用流程
 
+~~~xml
+<dependency>
+    <groupId>io.github.me-liuchunfu</groupId>
+    <artifactId>springboot.message-event</artifactId>
+    <version>0.0.1-RELEASE</version>
+</dependency>
+~~~
+
 application.yml中加上以下配置：
 ~~~yml
 

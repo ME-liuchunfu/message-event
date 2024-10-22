@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * 消息事件：事件监听器
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Component
 @Slf4j
@@ -100,7 +100,7 @@ public class MessageEventListener implements ApplicationListener<MessageEvent> {
 
     /**
      * 获取所有通道类名称，该名称为自定义通道名称
-     * @return
+     * @return 返会当前注册的通道标识列表
      */
     public Set<Object> findAllDispatcherChannel() {
         return new HashSet<>(dispatcherMap.keySet());
