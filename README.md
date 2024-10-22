@@ -55,6 +55,8 @@ message:
         queue-capacity: 102400
         # 线程活 keep-alive 时间，默认是60（单位毫秒）
         keep-alive: 100000
+        # 开启线程池
+        enabled: true
       thread-name-prefix: messageThreadPoolExecutor
       # sms
       # email
