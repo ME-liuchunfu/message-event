@@ -1,10 +1,11 @@
 package com.spring.bootevent.messageevent.message.listener.dispatcher;
 
-import com.spring.bootevent.messageevent.TestCntroller;
+import com.spring.bootevent.messageevent.message.config.MessageConfiguration;
 import com.spring.bootevent.messageevent.message.event.MessageEvent;
 import com.spring.bootevent.messageevent.message.event.MessageWrap;
 import com.spring.bootevent.messageevent.message.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -17,6 +18,10 @@ import java.util.Optional;
 @Slf4j
 public class DefaultMessageDispatcher implements MessageDispatcher<MessageEvent> {
 
+    @Lazy
+    @Resource
+    MessageConfiguration messageConfiguration;
+
     @Override
     public Object getEventId() {
         return DEFAULT_EVENT_ID;
@@ -27,7 +32,9 @@ public class DefaultMessageDispatcher implements MessageDispatcher<MessageEvent>
         MessageWrap wrap = event.getMessageWrap();
         String id = Optional.ofNullable(wrap).map(MessageWrap::getEventId).orElse("null");
         String msg = Optional.ofNullable(wrap).map(MessageWrap::getEvent).map(StrUtil::toJsonString).orElse("");
-        log.error("消息暂未匹配监听器,eventId:{},event:{}", id, msg);
+        if (messageConfiguration.getLogs().isDefaultLog()) {
+            log.error("消息暂未匹配监听器,eventId:{},event:{}", id, msg);
+        }
     }
 
 }

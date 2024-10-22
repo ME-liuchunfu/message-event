@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Spring(Spring boot)工具封装，包括：
@@ -211,7 +212,6 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      * <p>
      * 由{@link org.springframework.beans.factory.BeanFactory} 实现，通过工具开放API
      * <p>
-     * 更新: shadow 2021-07-29 17:20:44 增加自动注入，修复注册bean无法反向注入的问题
      *
      * @param <T>      Bean类型
      * @param beanName 名称
@@ -239,6 +239,37 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
             throw new RuntimeException("Can not unregister bean, the factory is not a DefaultSingletonBeanRegistry!");
         }
     }
+
+    /**
+     * spring中是否注册过该bean
+     * <p>
+     * 由{@link org.springframework.context.ApplicationContext} 实现，通过工具开放API
+     * <p>
+     * @return true 注册过， false未注册
+     */
+    public static boolean containsBean(String beanName) {
+        if (Objects.isNull(applicationContext)) {
+            return Boolean.FALSE;
+        }
+        return applicationContext.containsBean(beanName);
+    }
+
+
+    /**
+     * spring中是否注册过该bean类型
+     * <p>
+     * 由{@link org.springframework.context.ApplicationContext} 实现，通过工具开放API
+     * <p>
+     * @return true 注册过， false未注册
+     */
+    public static <T> boolean containsBean(Class<T> classType) {
+        if (Objects.isNull(applicationContext)) {
+            return Boolean.FALSE;
+        }
+        String[] beanNamesForType = applicationContext.getBeanNamesForType(classType);
+        return beanNamesForType.length > 0;
+    }
+
 
     /**
      * 发布事件

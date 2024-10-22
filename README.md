@@ -50,11 +50,29 @@ message:
       thread-name-prefix: messageThreadPoolExecutor
       # sms
       # email
+      # 日志配置
+      logs:
+        log: true #开启消息事件日志推送
+        default-log: true #开启默认找不到监听通道日志推送
 ~~~
 
+如果需要开启log4j日志需要加上日志开启配置：
+这是spring默认的日志开关，事件驱动的日志开关可以开启spring日志后再配置开关
 
+~~~yaml
+# 开启日志记录
+logging:
+    level:
+        com:
+            spring:
+                bootevent:
+                    messageevent: debug
+
+~~~
 
 业务模块使用
+需要在Application启动类或者配置类中使用注解
+@EnableMessageEvent
 
 ~~~java
 
@@ -90,25 +108,80 @@ public class TestService {
 同步和异步的方式说明：
 
 ~~~java
-// 同步方式：
-方式一：
-MessageEvent messageEvent = xxx;
-MessageEventProduct.event().message(Boolean.FALSE).publishEvent(messageEvent);
-方式二：
-MessageEvent messageEvent = xxx;
-MessageEventProduct.event().sync().publishEvent(messageEvent);
+public class Test {
+    
+    public void test() {
+        // 同步方式：
+        //方式一：
+        MessageEvent messageEvent = xxx;
+        MessageEventProduct.event().message(Boolean.FALSE).publishEvent(messageEvent);
+        //方式二：
+        MessageEvent messageEvent = xxx;
+        MessageEventProduct.event().sync().publishEvent(messageEvent);
 
 
-// 异步方式：
+        // 异步方式：
+        //方式一：
+        MessageEvent messageEvent = xxx;
+        MessageEventProduct.event().message(Boolean.TRUE).publishEvent(messageEvent);
 
-方式一：
-MessageEvent messageEvent = xxx;
-MessageEventProduct.event().message(Boolean.TRUE).publishEvent(messageEvent);
-
-方式二：
-MessageEvent messageEvent = xxx;
-MessageEventProduct.event().async().publishEvent(messageEvent);
+        //方式二：
+        MessageEvent messageEvent = xxx;
+        MessageEventProduct.event().async().publishEvent(messageEvent);
+    }
+    
+}
 ~~~
+
+## 2、消息通道
+
+1、系统默认通道: eamil(邮件推送通道)
+2、如果需要自定义通道，将在项目目录：src/main/resources/META-INF/services 下新建 com.spring.bootevent.messageevent.message.listener.dispatcher.MessageDispatcher 文件
+~~~properties
+# 文件内容填写自定义的通道实现类， 该类会被spring自动代理 不需要加@Service、@Component 等注解、目前暂未支持自定义bean名称，目前使用类的 包名+类名 作为bean名称
+xxx.xxxMessageDispatcher
+
+~~~
+自定义通道名称请不要重复，重复名称会替换已存在的bean，如果想获取当前所有的分发器通道可以注入 MessageEventListener调用findAllDispatcherChannel()
+
+
+3、自定义通道手动注册与注销
+
+~~~java
+
+import com.spring.bootevent.messageevent.message.listener.dispatcher.MessageDispatcher;
+import com.spring.bootevent.messageevent.message.util.SpringUtil;
+
+public class Test {
+
+    public void test() {
+        // 当容器启动或者特定情况下可以通过将消息事件分发实例注入到bean中，然后手动调用消息事件注册方法实现注册通道
+        MessageEventListener listener = SpringUtil.getBean(MessageEventListener.class);
+        MessageDispatcher<MessageEvent> dispatcher = new MessageDispatcher<MessageEvent>() {
+            @Override
+            public Object getEventId() {
+                return "abc";
+            }
+
+            @Override
+            public void onEvent(MessageEvent event) {
+                System.out.println(event);
+            }
+        };
+        // 该方式会被spring容器注册
+        listener.registerBean(dispatcher);
+        
+        // 手动注销
+        listener.unregisterBean(dispatcher);
+    }
+
+}
+
+~~~
+
+
+## 3、消息中已经集成邮件推送
+后续版本研发中会将邮件推送分离与其他中间件合并为统一消息中心
 
 
 

@@ -2,6 +2,8 @@ package com.spring.bootevent.messageevent.message.config;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 消息事件：线程池配置
@@ -10,6 +12,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Configuration
+@ConfigurationProperties(prefix = "message.event.message.pool")
 public class MessagePoolProperties {
 
     /**

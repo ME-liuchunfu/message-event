@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.*;
 
@@ -14,10 +15,11 @@ import java.util.concurrent.*;
  * @author spring
  * @date 2024-10-20
  */
-@Configuration
-@ConfigurationProperties("message.event.message")
 @Getter
 @Setter
+@Configuration
+@ComponentScan(basePackages = "com.spring.bootevent.messageevent")
+@ConfigurationProperties(prefix = "message.event.message")
 public class MessageConfiguration {
 
     public static final String THREAD_PREF = "messageThreadPoolExecutor-";
@@ -26,10 +28,13 @@ public class MessageConfiguration {
 
     private String threadNamePrefix = THREAD_PREF;
 
+    private MessageLog logs = new MessageLog();
+
     @Bean("messageThreadPoolExecutor")
     public ThreadPoolExecutor messageThreadPoolExecutor(MessageConfiguration messageConfiguration) {
         MessagePoolProperties poolProperties = messageConfiguration.getPool();
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(poolProperties.getCoreSize(), poolProperties.getMaxSize(), poolProperties.getKeepAlive(), TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(poolProperties.getQueueCapacity()), new MessageThreadFactory(THREAD_PREF));
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(poolProperties.getCoreSize(), poolProperties.getMaxSize(),
+                poolProperties.getKeepAlive(), TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(poolProperties.getQueueCapacity()), new MessageThreadFactory(THREAD_PREF));
         threadPoolExecutor.setRejectedExecutionHandler(new MessageAbortHandler());
         return threadPoolExecutor;
     }
