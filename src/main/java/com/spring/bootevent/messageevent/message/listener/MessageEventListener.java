@@ -1,5 +1,6 @@
 package com.spring.bootevent.messageevent.message.listener;
 
+import com.spring.bootevent.messageevent.message.config.MessageConfiguration;
 import com.spring.bootevent.messageevent.message.event.MessageEvent;
 import com.spring.bootevent.messageevent.message.event.MessageWrap;
 import com.spring.bootevent.messageevent.message.listener.dispatcher.MessageDispatcher;
@@ -7,7 +8,11 @@ import com.spring.bootevent.messageevent.message.util.SpringUtil;
 import com.spring.bootevent.messageevent.message.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.*;
 
 
@@ -27,7 +32,12 @@ public class MessageEventListener implements ApplicationListener<MessageEvent> {
 
     private MessageDispatcher<MessageEvent> defaultDispatcher;
 
-    public MessageEventListener() {
+    @Resource
+    MessageConfiguration messageConfiguration;
+
+    @Lazy
+    @PostConstruct
+    public void init() {
         ServiceLoader<MessageDispatcher> loader = ServiceLoader.load(MessageDispatcher.class);
         dispatcherMap = new HashMap<>();
         Iterator<MessageDispatcher> iterator = loader.iterator();
@@ -44,8 +54,18 @@ public class MessageEventListener implements ApplicationListener<MessageEvent> {
         MessageWrap wrap = event.getMessageWrap();
         String id = Optional.ofNullable(wrap).map(MessageWrap::getEventId).orElse(NULL);
         String msg = Optional.ofNullable(wrap).map(MessageWrap::getEvent).map(StrUtil::toJsonString).orElse(EMPTY);
-        log.debug("收到广播消息,eventId:{},event:{}", id, msg);
+        if (messageConfiguration.getLogs().isLog()) {
+            log.debug("收到广播消息,eventId:{},event:{}", id, msg);
+        }
         dispatcherMap.getOrDefault(id, defaultDispatcher).onEvent(event);
+    }
+
+    /**
+     * 获取所有通道类名称，该名称为自定义通道名称
+     * @return
+     */
+    public Set<Object> findAllDispatcherChannel() {
+        return new HashSet<>(dispatcherMap.keySet());
     }
 
 }

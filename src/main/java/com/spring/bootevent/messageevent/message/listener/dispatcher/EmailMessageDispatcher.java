@@ -5,6 +5,7 @@ import com.spring.bootevent.messageevent.message.event.MessageWrap;
 import com.spring.bootevent.messageevent.message.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.yaml.snakeyaml.util.ArrayUtils;
@@ -22,9 +23,11 @@ import java.util.Optional;
 @Slf4j
 public class EmailMessageDispatcher implements MessageDispatcher<MessageEvent> {
 
+    @Lazy
     @Resource
     JavaMailSender javaMailSender;
 
+    @Lazy
     @Resource
     MailProperties mailProperties;
 

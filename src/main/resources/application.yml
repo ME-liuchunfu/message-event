@@ -48,3 +48,7 @@ message:
       thread-name-prefix: messageThreadPoolExecutor
       # sms
       # email
+      # 日志配置
+      logs:
+        log: true #开启消息事件日志推送
+        default-log: true #开启默认找不到监听通道日志推送
