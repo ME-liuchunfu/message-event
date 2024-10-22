@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * 事件驱动：字符转处理
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 public class StrUtil {
 

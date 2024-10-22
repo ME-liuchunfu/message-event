@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * 简单线程执行器
  *
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 public class SimpleThreadExecutor extends Thread {
 

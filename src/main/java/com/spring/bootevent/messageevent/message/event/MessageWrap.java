@@ -5,7 +5,7 @@ import lombok.*;
 /**
  * 消息体
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Getter
 @Setter

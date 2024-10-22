@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 消息事件：线程池配置
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Getter
 @Setter
@@ -35,5 +35,10 @@ public class MessagePoolProperties {
      * 线程活 keep-alive 时间，默认是60(单位毫秒)
      */
     private int keepAlive = 60;
+
+    /**
+     * 是否启用线程池
+     */
+    private boolean enabled;
 
 }

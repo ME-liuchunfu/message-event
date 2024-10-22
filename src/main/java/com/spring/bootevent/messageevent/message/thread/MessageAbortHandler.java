@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * 消息事件：异常处理策略
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 public class MessageAbortHandler implements RejectedExecutionHandler {
 

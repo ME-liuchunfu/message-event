@@ -245,6 +245,7 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      * <p>
      * 由{@link org.springframework.context.ApplicationContext} 实现，通过工具开放API
      * <p>
+     * @param beanName bean名称
      * @return true 注册过， false未注册
      */
     public static boolean containsBean(String beanName) {
@@ -260,9 +261,10 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      * <p>
      * 由{@link org.springframework.context.ApplicationContext} 实现，通过工具开放API
      * <p>
+     * @param classType bean类型
      * @return true 注册过， false未注册
      */
-    public static <T> boolean containsBean(Class<T> classType) {
+    public static boolean containsBean(Class<?> classType) {
         if (Objects.isNull(applicationContext)) {
             return Boolean.FALSE;
         }

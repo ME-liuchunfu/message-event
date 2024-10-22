@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * 消息事件： 线程池工厂
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 public class MessageThreadFactory implements ThreadFactory {
 

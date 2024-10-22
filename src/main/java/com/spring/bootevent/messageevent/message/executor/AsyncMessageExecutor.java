@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorService;
  * 事件广播：异步消息广播
  * 需要定义：messageThreadPoolExecutor 线程池，如果没有定义线程池，默认使用
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Slf4j
 public class AsyncMessageExecutor extends MessageExecutor {

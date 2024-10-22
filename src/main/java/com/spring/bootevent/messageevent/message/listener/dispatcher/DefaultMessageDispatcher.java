@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * 消息事件：消息分发器(默认)
  * @author spring
- * @date 2024-10-20
+ * date 2024-10-20
  */
 @Slf4j
 public class DefaultMessageDispatcher implements MessageDispatcher<MessageEvent> {
