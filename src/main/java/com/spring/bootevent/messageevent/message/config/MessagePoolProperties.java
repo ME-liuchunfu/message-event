@@ -36,4 +36,9 @@ public class MessagePoolProperties {
      */
     private int keepAlive = 60;
 
+    /**
+     * 是否启用线程池
+     */
+    private boolean enabled;
+
 }

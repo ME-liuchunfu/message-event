@@ -4,6 +4,7 @@ import com.spring.bootevent.messageevent.message.thread.MessageAbortHandler;
 import com.spring.bootevent.messageevent.message.thread.MessageThreadFactory;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,6 +32,7 @@ public class MessageConfiguration {
     private MessageLog logs = new MessageLog();
 
     @Bean("messageThreadPoolExecutor")
+    @ConditionalOnProperty(name = "message.event.message.pool.enabled", havingValue = "true", matchIfMissing = false)
     public ThreadPoolExecutor messageThreadPoolExecutor(MessageConfiguration messageConfiguration) {
         MessagePoolProperties poolProperties = messageConfiguration.getPool();
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(poolProperties.getCoreSize(), poolProperties.getMaxSize(),
