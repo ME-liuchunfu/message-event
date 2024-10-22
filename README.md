@@ -145,6 +145,41 @@ xxx.xxxMessageDispatcher
 自定义通道名称请不要重复，重复名称会替换已存在的bean，如果想获取当前所有的分发器通道可以注入 MessageEventListener调用findAllDispatcherChannel()
 
 
+3、自定义通道手动注册与注销
+
+~~~java
+
+import com.spring.bootevent.messageevent.message.listener.dispatcher.MessageDispatcher;
+import com.spring.bootevent.messageevent.message.util.SpringUtil;
+
+public class Test {
+
+    public void test() {
+        // 当容器启动或者特定情况下可以通过将消息事件分发实例注入到bean中，然后手动调用消息事件注册方法实现注册通道
+        MessageEventListener listener = SpringUtil.getBean(MessageEventListener.class);
+        MessageDispatcher<MessageEvent> dispatcher = new MessageDispatcher<MessageEvent>() {
+            @Override
+            public Object getEventId() {
+                return "abc";
+            }
+
+            @Override
+            public void onEvent(MessageEvent event) {
+                System.out.println(event);
+            }
+        };
+        // 该方式会被spring容器注册
+        listener.registerBean(dispatcher);
+        
+        // 手动注销
+        listener.unregisterBean(dispatcher);
+    }
+
+}
+
+~~~
+
+
 ## 3、消息中已经集成邮件推送
 后续版本研发中会将邮件推送分离与其他中间件合并为统一消息中心
 

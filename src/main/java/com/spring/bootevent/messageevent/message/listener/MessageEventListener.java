@@ -61,6 +61,44 @@ public class MessageEventListener implements ApplicationListener<MessageEvent> {
     }
 
     /**
+     * 手动注册通道管理器
+     * @param dispatcher    通道实例对象
+     * @param registerSpring  是否向spring容器注册
+     */
+    public void registerBean(MessageDispatcher<MessageEvent> dispatcher, boolean registerSpring) {
+        if (registerSpring) {
+            if (!SpringUtil.containsBean(dispatcher.getClass())) {
+                SpringUtil.registerBean(dispatcher.getClass().getName(), dispatcher);
+            }
+        }
+        dispatcherMap.put(dispatcher.getEventId(), dispatcher);
+    }
+
+    /**
+     * 手动注册通道管理器，会向spring容器注册bean
+     * @param dispatcher    通道实例对象
+     */
+    public void registerBean(MessageDispatcher<MessageEvent> dispatcher) {
+        registerBean(dispatcher, Boolean.TRUE);
+    }
+
+    /**
+     * 手动注销通道管理器，会向spring容器注销bean
+     * @param id    通道唯一标识（如果该通道的标识与已存在的标识同名，则会覆盖掉已存在标识）
+     */
+    public void unregisterBean(Object id) {
+        dispatcherMap.remove(id);
+    }
+
+    /**
+     * 手动注销通道管理器，会向spring容器注销bean
+     * @param dispatcher    通道实例对象
+     */
+    public void unregisterBean(MessageDispatcher<MessageEvent> dispatcher) {
+        dispatcherMap.remove(dispatcher.getEventId());
+    }
+
+    /**
      * 获取所有通道类名称，该名称为自定义通道名称
      * @return
      */
