@@ -3,6 +3,8 @@ package com.spring.bootevent.messageevent.message.thread;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static java.lang.Thread.NORM_PRIORITY;
+
 /**
  * 消息事件： 线程池工厂
  * @author spring
@@ -23,6 +25,9 @@ public class MessageThreadFactory implements ThreadFactory {
         Thread thread = new Thread(runnable, pref + threadCount.incrementAndGet());
         if (thread.isDaemon()) {
             thread.setDaemon(Boolean.FALSE);
+        }
+        if (thread.getPriority() != NORM_PRIORITY) {
+            thread.setPriority(NORM_PRIORITY);
         }
         return thread;
     }

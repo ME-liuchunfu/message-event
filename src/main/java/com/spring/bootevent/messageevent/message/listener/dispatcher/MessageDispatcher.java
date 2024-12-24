@@ -1,13 +1,13 @@
 package com.spring.bootevent.messageevent.message.listener.dispatcher;
 
+import com.lmax.disruptor.EventHandler;
+
 /**
  * 消息事件：消息分发器
  * @author spring
  * date 2024-10-20
  */
-public interface MessageDispatcher<T> {
-
-    String DEFAULT_EVENT_ID = "DEFAULT";
+public interface MessageDispatcher<T> extends EventHandler<T> {
 
     /**
      * 获取事件 id
@@ -20,5 +20,10 @@ public interface MessageDispatcher<T> {
      * @param event 消息
      */
     void onEvent(T event);
+
+    @Override
+    default void onEvent(T event, long sequence, boolean endOfBatch) throws Exception {
+        this.onEvent(event);
+    }
 
 }

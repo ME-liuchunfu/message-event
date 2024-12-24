@@ -15,7 +15,7 @@ spring:
           auth: true
           enable: true
           ssl:
-            # 设为true时 端口号设为 465 设为false时 端口号设为25
+            # 设为true时 端口号设为 465 设为false时 端口号设为25, 如果ssl不成功，改成false，使用25端口
             enable: true
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
@@ -32,25 +32,3 @@ logging:
       spring:
         bootevent:
           messageevent: debug
-
-message:
-  event:
-    message:
-      pool:
-        # 核心线程数，默认为8
-        core-size: 8
-        # 最大线程数
-        max-size: 10240
-        # 队列容量
-        queue-capacity: 102400
-        # 线程活 keep-alive 时间，默认是60（单位毫秒）
-        keep-alive: 100000
-        # 开启线程池
-        enabled: true
-      thread-name-prefix: messageThreadPoolExecutor
-      # sms
-      # email
-      # 日志配置
-      logs:
-        log: true #开启消息事件日志推送
-        default-log: true #开启默认找不到监听通道日志推送

@@ -11,7 +11,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.Ordered;
 import org.springframework.core.ResolvableType;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
@@ -28,6 +30,7 @@ import java.util.Objects;
  *
  * @author spring
  */
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @Component
 public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware {
 

@@ -1,6 +1,7 @@
 package com.spring.bootevent.messageevent.message;
 
-import com.spring.bootevent.messageevent.message.config.MessageConfiguration;
+import com.spring.bootevent.messageevent.message.config.MessageDisruptorConfig;
+import com.spring.bootevent.messageevent.message.config.MessageScan;
 import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
@@ -10,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({MessageConfiguration.class})
+@Import({MessageScan.class, MessageDisruptorConfig.class})
 public @interface EnableMessageEvent {
 
 }

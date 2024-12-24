@@ -1,19 +1,12 @@
 package com.spring.bootevent.messageevent.message.listener.dispatcher;
 
-import com.spring.bootevent.messageevent.message.event.MessageEvent;
-import com.spring.bootevent.messageevent.message.event.MessageWrap;
-import com.spring.bootevent.messageevent.message.util.StrUtil;
+import com.spring.bootevent.messageevent.message.event.MessageWrapEvent;
+import com.spring.bootevent.messageevent.message.listener.EventChanel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.yaml.snakeyaml.util.ArrayUtils;
-
 import javax.annotation.Resource;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * 消息事件：邮件消息分发器
@@ -21,37 +14,31 @@ import java.util.Optional;
  * date 2024-10-20
  */
 @Slf4j
-public class EmailMessageDispatcher implements MessageDispatcher<MessageEvent> {
+public class EmailMessageDispatcher implements MessageDispatcher<MessageWrapEvent> {
 
-    @Lazy
     @Resource
     JavaMailSender javaMailSender;
 
-    @Lazy
     @Resource
     MailProperties mailProperties;
 
     @Override
     public Object getEventId() {
-        return "email";
+        return EventChanel.CHANEL_EMAIL;
     }
 
     @Override
-    public void onEvent(MessageEvent event) {
-        MessageWrap wrap = event.getMessageWrap();
+    public void onEvent(MessageWrapEvent event) {
         SimpleMailMessage[] sendDatas;
-        if (wrap.getEvent() != null && wrap.getEvent().getClass().isArray()) {
-            sendDatas = (SimpleMailMessage[]) wrap.getEvent();
+        if (event.getEvent().getClass().isArray()) {
+            sendDatas = (SimpleMailMessage[]) event.getEvent();
         } else {
-            sendDatas = new SimpleMailMessage[] {(SimpleMailMessage) wrap.getEvent()};
+            sendDatas = new SimpleMailMessage[] {(SimpleMailMessage) event.getEvent()};
         }
         String username = mailProperties.getUsername();
         for (SimpleMailMessage sendData : sendDatas) {
             sendData.setFrom(username);
         }
-        String id = Optional.ofNullable(wrap).map(MessageWrap::getEventId).orElse("null");
-        String msg = Optional.ofNullable(wrap).map(MessageWrap::getEvent).map(StrUtil::toJsonString).orElse("");
-        log.debug("收到邮件消息,eventId:{},event:{}", id, msg);
         javaMailSender.send(sendDatas);
     }
 

@@ -7,13 +7,19 @@
 3、在操作主业务过程中将结果通关邮件通知其他人（事件驱动内部实现邮件推送功能）。
 4、使用到消息中间件(可以是用拓展模块处理)
 
+## 更新说明
+
+-- 2024-12-24:
+上一个版本才用了自定义线程池 & springboot提供的时间分发机制，v2.0版本取消 springboot事件分发机制，采用Disruptor,jdk升级11
+
+
 ## 1、使用流程
 
 ~~~xml
 <dependency>
     <groupId>io.github.me-liuchunfu</groupId>
     <artifactId>springboot.message-event</artifactId>
-    <version>0.0.1-RELEASE</version>
+    <version>2.0.0-RELEASE</version>
 </dependency>
 ~~~
 
@@ -41,29 +47,6 @@ spring:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
         debug: true
-
-# 事件驱动配置
-message:
-  event:
-    message:
-      pool:
-        # 核心线程数，默认为8
-        core-size: 8
-        # 最大线程数
-        max-size: 10240
-        # 队列容量
-        queue-capacity: 102400
-        # 线程活 keep-alive 时间，默认是60（单位毫秒）
-        keep-alive: 100000
-        # 开启线程池
-        enabled: true
-      thread-name-prefix: messageThreadPoolExecutor
-      # sms
-      # email
-      # 日志配置
-      logs:
-        log: true #开启消息事件日志推送
-        default-log: true #开启默认找不到监听通道日志推送
 ~~~
 
 如果需要开启log4j日志需要加上日志开启配置：
@@ -85,63 +68,36 @@ logging:
 @EnableMessageEvent
 
 ~~~java
+class SpringbooteventApplicationTests {
 
-public class TestService {
+    @Resource
+    MessageEventListener messageEventListener;
 
-    AtomicLong incr = new AtomicLong(0);
-
-    public String get() {
-        // 消息广播， 向test通道广播一条消息，使用异步的方式
-        String s = "["+incr.incrementAndGet()+"]" + UUID.randomUUID().toString();
-        MessageEvent messageEvent = new MessageEvent(this, MessageWrap.builder().eventId("test").event(s).build());
-        MessageEventProduct.event().message(Boolean.TRUE).publishEvent(messageEvent);
-        return s;
+    @Test
+    void runTestChannelAsyncMessage() throws InterruptedException {
+        int runTime = 10;
+        for (int i = 1; i <= runTime; i++) {
+            String s = "["+i+"]" + UUID.randomUUID().toString();
+            messageEventListener.publishEvent("", s);
+            System.out.println(Thread.currentThread().getName() + "--request:" + s);
+        }
+        Thread.sleep(5000);
     }
 
-    public String email(String email) {
-        // 消息广播，像email邮件通道广播一条邮件消息，使用异步的方式
-        String message = "测试下邮件发送";
+    @Test
+    void runTestChannelEmailMessage() throws InterruptedException {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject(message);
-        simpleMailMessage.setText(String.valueOf(System.currentTimeMillis()));
-        MessageEvent messageEvent = new MessageEvent(this, MessageWrap.builder().eventId("email").event(simpleMailMessage).build());
-        MessageEventProduct.event().message(Boolean.TRUE).publishEvent(messageEvent);
-        System.out.println(message);
-        return message;
+        simpleMailMessage.setText("你好啊");
+        simpleMailMessage.setSubject("这里是标题");
+        simpleMailMessage.setTo("429829320@qq.com");
+        messageEventListener.publishEmail(simpleMailMessage);
+        System.out.println(Thread.currentThread().getName() + "--request:");
+        Thread.sleep(5000);
     }
 
 }
 ~~~
 
-
-同步和异步的方式说明：
-
-~~~java
-public class Test {
-    
-    public void test() {
-        // 同步方式：
-        //方式一：
-        MessageEvent messageEvent = xxx;
-        MessageEventProduct.event().message(Boolean.FALSE).publishEvent(messageEvent);
-        //方式二：
-        MessageEvent messageEvent = xxx;
-        MessageEventProduct.event().sync().publishEvent(messageEvent);
-
-
-        // 异步方式：
-        //方式一：
-        MessageEvent messageEvent = xxx;
-        MessageEventProduct.event().message(Boolean.TRUE).publishEvent(messageEvent);
-
-        //方式二：
-        MessageEvent messageEvent = xxx;
-        MessageEventProduct.event().async().publishEvent(messageEvent);
-    }
-    
-}
-~~~
 
 ## 2、消息通道
 
@@ -155,43 +111,7 @@ xxx.xxxMessageDispatcher
 自定义通道名称请不要重复，重复名称会替换已存在的bean，如果想获取当前所有的分发器通道可以注入 MessageEventListener调用findAllDispatcherChannel()
 
 
-3、自定义通道手动注册与注销
-
-~~~java
-
-import com.spring.bootevent.messageevent.message.listener.dispatcher.MessageDispatcher;
-import com.spring.bootevent.messageevent.message.util.SpringUtil;
-
-public class Test {
-
-    public void test() {
-        // 当容器启动或者特定情况下可以通过将消息事件分发实例注入到bean中，然后手动调用消息事件注册方法实现注册通道
-        MessageEventListener listener = SpringUtil.getBean(MessageEventListener.class);
-        MessageDispatcher<MessageEvent> dispatcher = new MessageDispatcher<MessageEvent>() {
-            @Override
-            public Object getEventId() {
-                return "abc";
-            }
-
-            @Override
-            public void onEvent(MessageEvent event) {
-                System.out.println(event);
-            }
-        };
-        // 该方式会被spring容器注册
-        listener.registerBean(dispatcher);
-        
-        // 手动注销
-        listener.unregisterBean(dispatcher);
-    }
-
-}
-
-~~~
-
-
 ## 3、消息中已经集成邮件推送
 后续版本研发中会将邮件推送分离与其他中间件合并为统一消息中心
-
 
 
