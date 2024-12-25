@@ -17,4 +17,6 @@ public class MessageWrapEvent {
 
     private Object event;
 
+    private Object uuid;
+
 }

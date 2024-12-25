@@ -1,5 +1,6 @@
 package com.spring.bootevent.messageevent.message.listener.dispatcher;
 
+import com.spring.bootevent.messageevent.message.config.MessageMailMultiSender;
 import com.spring.bootevent.messageevent.message.event.MessageWrapEvent;
 import com.spring.bootevent.messageevent.message.exception.MessageAbortExecution;
 import com.spring.bootevent.messageevent.message.listener.EventChanel;
@@ -11,7 +12,6 @@ import com.vladsch.flexmark.util.ast.Document;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -30,10 +30,7 @@ import java.util.stream.Collectors;
 public class EmailMessageDispatcher implements MessageDispatcher<MessageWrapEvent> {
 
     @Resource
-    JavaMailSender javaMailSender;
-
-    @Resource
-    MailProperties mailProperties;
+    MessageMailMultiSender messageMailMultiSender;
 
     @Override
     public Object getEventId() {
@@ -45,15 +42,28 @@ public class EmailMessageDispatcher implements MessageDispatcher<MessageWrapEven
         if (!((event.getEvent() instanceof EmailMessage[]) || (event.getEvent() instanceof EmailMessage))) {
             throw new MessageAbortExecution("消息实例:"+ parseMsg(event.getEvent()) +",非SimpleMessage");
         }
+        if (Objects.isNull(event.getUuid())) {
+            log.warn("邮件发送异常,当前发送实例uuid为空");
+            return;
+        }
+        Optional<JavaMailSender> javaMailSenderOptional = messageMailMultiSender.javaMailSender(event.getUuid());
+        if (javaMailSenderOptional.isEmpty()) {
+            log.warn("邮件发送消息实例不存在uuid:{}", event.getUuid());
+            return;
+        }
+        JavaMailSender javaMailSender = javaMailSenderOptional.get();
         EmailMessage[] sendDatas;
         if (event.getEvent().getClass().isArray()) {
             sendDatas = (EmailMessage[]) event.getEvent();
         } else {
             sendDatas = new EmailMessage[] {(EmailMessage) event.getEvent()};
         }
-        String username = mailProperties.getUsername();
+        String username = null;
         for (EmailMessage sendData : sendDatas) {
             if (Strings.isBlank(sendData.getFrom())) {
+                if (Objects.isNull(username)) {
+                    username = messageMailMultiSender.javaMailSenderUserName(event.getUuid());
+                }
                 sendData.setFrom(username);
             }
         }

@@ -2,6 +2,7 @@ package com.spring.bootevent.messageevent.message.listener;
 
 import com.lmax.disruptor.RingBuffer;
 import com.spring.bootevent.messageevent.message.event.MessageWrapEvent;
+import com.spring.bootevent.messageevent.message.exception.MessageAbortExecution;
 import com.spring.bootevent.messageevent.message.third.email.EmailMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -34,30 +35,37 @@ public class MessageEventListener implements ApplicationContextAware {
 
     /**
      * 消息广播发送
+     * @param uuid 事件id
      * @param channel 消息通道
      * @param wrap 消息
      */
-    public void publishEvent(String channel, Object wrap) {
+    public void publishEvent(String channel, Object wrap, Object uuid) {
         ringBuffer.publishEvent((event, sequence) -> {
             event.setEventId(channel);
             event.setEvent(wrap);
+            event.setUuid(uuid);
         });
     }
 
     /**
      * 邮件发送
+     * @param sender 邮件发送者id
      * @param event 消息
      */
-    public void publishEmail(EmailMessage event) {
-        this.publishEvent(EventChanel.CHANEL_EMAIL, event);
+    public void publishEmail(Object sender, EmailMessage event) {
+        this.publishEvent(EventChanel.CHANEL_EMAIL, event, sender);
     }
 
     /**
      * 邮件发送
+     * @param sender 邮件发送者id
      * @param event 消息
      */
-    public void publishEmail(EmailMessage... event) {
-        this.publishEvent(EventChanel.CHANEL_EMAIL, event);
+    public void publishEmail(Object sender, EmailMessage... event) {
+        if (event.length == 0) {
+            throw new MessageAbortExecution("邮件消息为空");
+        }
+        this.publishEvent(EventChanel.CHANEL_EMAIL, event, sender);
     }
 
     @Override

@@ -9,10 +9,8 @@ import com.spring.bootevent.messageevent.message.disruptor.DisruptorEventHandler
 import com.spring.bootevent.messageevent.message.disruptor.DisruptorMessageEventFactory;
 import com.spring.bootevent.messageevent.message.disruptor.DisruptorMessageWrapEventHandler;
 import com.spring.bootevent.messageevent.message.event.MessageWrapEvent;
-import com.spring.bootevent.messageevent.message.listener.dispatcher.EmailMessageDispatcher;
 import com.spring.bootevent.messageevent.message.thread.MessageAbortHandler;
 import com.spring.bootevent.messageevent.message.thread.MessageThreadFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

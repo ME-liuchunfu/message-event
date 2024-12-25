@@ -3,6 +3,7 @@ package com.spring.bootevent.messageevent.message;
 import com.spring.bootevent.messageevent.message.config.MessageDisruptorConfig;
 import com.spring.bootevent.messageevent.message.config.MessageScan;
 import org.springframework.context.annotation.Import;
+
 import java.lang.annotation.*;
 
 /**
