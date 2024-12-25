@@ -9,10 +9,9 @@ import lombok.*;
  */
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageWrap {
+public class MessageWrapEvent {
 
     private String eventId;
 

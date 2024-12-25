@@ -1,13 +1,9 @@
 package com.spring.bootevent.messageevent.message.listener.dispatcher;
 
-import com.spring.bootevent.messageevent.message.config.MessageConfiguration;
-import com.spring.bootevent.messageevent.message.event.MessageEvent;
-import com.spring.bootevent.messageevent.message.event.MessageWrap;
+import com.spring.bootevent.messageevent.message.event.MessageWrapEvent;
+import com.spring.bootevent.messageevent.message.listener.EventChanel;
 import com.spring.bootevent.messageevent.message.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
-
-import javax.annotation.Resource;
 import java.util.Optional;
 
 /**
@@ -16,24 +12,19 @@ import java.util.Optional;
  * date 2024-10-20
  */
 @Slf4j
-public class DefaultMessageDispatcher implements MessageDispatcher<MessageEvent> {
-
-    @Lazy
-    @Resource
-    MessageConfiguration messageConfiguration;
+public class DefaultMessageDispatcher implements MessageDispatcher<MessageWrapEvent> {
 
     @Override
     public Object getEventId() {
-        return DEFAULT_EVENT_ID;
+        return EventChanel.CHANEL_DEFAULT;
     }
 
     @Override
-    public void onEvent(MessageEvent event) {
-        MessageWrap wrap = event.getMessageWrap();
-        String id = Optional.ofNullable(wrap).map(MessageWrap::getEventId).orElse("null");
-        String msg = Optional.ofNullable(wrap).map(MessageWrap::getEvent).map(StrUtil::toJsonString).orElse("");
-        if (messageConfiguration.getLogs().isDefaultLog()) {
-            log.error("消息暂未匹配监听器,eventId:{},event:{}", id, msg);
+    public void onEvent(MessageWrapEvent event) {
+        String id = Optional.ofNullable(event).map(MessageWrapEvent::getEventId).orElse("null");
+        String msg = Optional.ofNullable(event).map(MessageWrapEvent::getEvent).map(StrUtil::toJsonString).orElse("");
+        if (log.isInfoEnabled()) {
+            log.error("Disruptor消息暂未匹配监听器,eventId:{},event:{}", id, msg);
         }
     }
 
