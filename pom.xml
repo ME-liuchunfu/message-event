@@ -50,6 +50,9 @@
         <jackson.version>2.18.0</jackson.version>
         <springboot-starter.version>2.7.18</springboot-starter.version>
         <disruptor.version>4.0.0</disruptor.version>
+        <spring-contex-support.version>5.3.39</spring-contex-support.version>
+        <guava.version>33.4.0-jre</guava.version>
+        <flexmark.version>0.64.8</flexmark.version>
     </properties>
     <dependencies>
 
@@ -58,6 +61,26 @@
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <version>${disruptor.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.vladsch.flexmark/flexmark-all -->
+        <dependency>
+            <groupId>com.vladsch.flexmark</groupId>
+            <artifactId>flexmark-all</artifactId>
+            <version>${flexmark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring-contex-support.version}</version>
         </dependency>
 
         <!-- Jackson -->

@@ -1,6 +1,7 @@
 package com.spring.bootevent.messageevent.message.listener.dispatcher;
 
 import com.lmax.disruptor.EventHandler;
+import com.spring.bootevent.messageevent.message.util.StrUtil;
 
 /**
  * 消息事件：消息分发器
@@ -24,6 +25,19 @@ public interface MessageDispatcher<T> extends EventHandler<T> {
     @Override
     default void onEvent(T event, long sequence, boolean endOfBatch) throws Exception {
         this.onEvent(event);
+    }
+
+    /**
+     * 消息解析
+     * @param obj any obj
+     * @return string
+     */
+    default String parseMsg(Object obj) {
+        String jsonString = StrUtil.toJsonString(obj);
+        if (jsonString.length() > Short.MAX_VALUE) {
+            return jsonString.substring(0, Short.MAX_VALUE);
+        }
+        return jsonString;
     }
 
 }

@@ -2,11 +2,11 @@ package com.spring.bootevent.messageevent.message.listener;
 
 import com.lmax.disruptor.RingBuffer;
 import com.spring.bootevent.messageevent.message.event.MessageWrapEvent;
+import com.spring.bootevent.messageevent.message.third.email.EmailMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 import java.util.Optional;
 
@@ -48,7 +48,7 @@ public class MessageEventListener implements ApplicationContextAware {
      * 邮件发送
      * @param event 消息
      */
-    public void publishEmail(SimpleMailMessage event) {
+    public void publishEmail(EmailMessage event) {
         this.publishEvent(EventChanel.CHANEL_EMAIL, event);
     }
 
@@ -56,7 +56,7 @@ public class MessageEventListener implements ApplicationContextAware {
      * 邮件发送
      * @param event 消息
      */
-    public void publishEmail(SimpleMailMessage... event) {
+    public void publishEmail(EmailMessage... event) {
         this.publishEvent(EventChanel.CHANEL_EMAIL, event);
     }
 
