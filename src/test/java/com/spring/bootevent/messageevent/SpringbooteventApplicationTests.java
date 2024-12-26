@@ -1,19 +1,17 @@
 package com.spring.bootevent.messageevent;
 
-import com.spring.bootevent.messageevent.message.SpringbooteventApplication;
 import com.spring.bootevent.messageevent.message.listener.MessageEventListener;
 import com.spring.bootevent.messageevent.message.third.email.EmailBuilder;
 import com.spring.bootevent.messageevent.message.third.email.HtmlMessage;
 import com.spring.bootevent.messageevent.message.third.email.MarkdownMessage;
 import com.spring.bootevent.messageevent.message.third.email.SimpleMessage;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.UUID;
 
-@SpringBootTest(classes = SpringbooteventApplication.class)
+//@SpringBootTest(classes = SpringbooteventApplication.class)
 class SpringbooteventApplicationTests {
 
     @Resource

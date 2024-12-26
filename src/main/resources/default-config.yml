@@ -2,11 +2,11 @@ spring:
   application:
     name: springbootevent
 
+  #password: JVsaadJ49X25c7V8
   mail:
     host: smtp.163.com
     port: 465
     username: ss123456ss1020@163.com
-    #password: JVsaadJ49X25c7V8
     password: xxx
     default-encoding: UTF-8
     properties:
@@ -29,8 +29,7 @@ spring:
           host: smtp.163.com
           port: 25
           username: ss123456ss1020@163.com
-          password: JVsaadJ49X25c7V8
-          #    password: xxx
+          password: xxx
           default-encoding: UTF-8
           properties:
             mail:
@@ -49,8 +48,7 @@ spring:
           host: smtp.163.com
           port: 25
           username: ss123456ss1020@163.com
-          password: JVsaadJ49X25c7V8
-          #    password: xxx
+          password: xxx
           default-encoding: UTF-8
           properties:
             mail:

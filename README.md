@@ -75,12 +75,14 @@ class SpringbooteventApplicationTests {
     @Resource
     MessageEventListener messageEventListener;
 
+    static String sender = "sender2-163";
+
     @Test
     void runTestChannelAsyncMessage() throws InterruptedException {
         int runTime = 10;
         for (int i = 1; i <= runTime; i++) {
             String s = "["+i+"]" + UUID.randomUUID().toString();
-            messageEventListener.publishEvent("", s);
+            messageEventListener.publishEvent("", s, s);
             System.out.println(Thread.currentThread().getName() + "--request:" + s);
         }
         Thread.sleep(5000);
@@ -95,7 +97,7 @@ class SpringbooteventApplicationTests {
                 .subject("这里是标题")
                 .to("429829320@qq.com")
                 .build();
-        messageEventListener.publishEmail(simpleMessage);
+        messageEventListener.publishEmail(sender, simpleMessage);
         System.out.println(Thread.currentThread().getName() + "--request:");
         Thread.sleep(5000);
     }
@@ -120,7 +122,7 @@ class SpringbooteventApplicationTests {
                 .subject("这里是标题")
                 .to("429829320@qq.com")
                 .build();
-        messageEventListener.publishEmail(htmlMessage);
+        messageEventListener.publishEmail(sender, htmlMessage);
         System.out.println(Thread.currentThread().getName() + "--request:");
         Thread.sleep(5000);
     }
@@ -139,7 +141,7 @@ class SpringbooteventApplicationTests {
                 .subject("这里是标题")
                 .to("429829320@qq.com")
                 .build();
-        messageEventListener.publishEmail(markdownMessage);
+        messageEventListener.publishEmail(sender, markdownMessage);
         System.out.println(Thread.currentThread().getName() + "--request:");
         Thread.sleep(5000);
     }
