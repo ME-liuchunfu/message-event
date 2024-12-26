@@ -1,3 +1,3 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.spring.bootevent.messageevent.message.util.SpringUtil
+  io.github.me.liuchunfu.springboot.event.message.util.SpringUtil

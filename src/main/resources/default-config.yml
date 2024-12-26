@@ -2,11 +2,11 @@ spring:
   application:
     name: springbootevent
 
+  #password: JVsaadJ49X25c7V8
   mail:
     host: smtp.163.com
     port: 465
     username: ss123456ss1020@163.com
-    #password: JVsaadJ49X25c7V8
     password: xxx
     default-encoding: UTF-8
     properties:
@@ -20,6 +20,47 @@ spring:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
         debug: true
+  # 池化邮件
+  message-event:
+    mail:
+      message-pool:
+        sender1-163:
+          sender-name: sender1-163
+          host: smtp.163.com
+          port: 25
+          username: ss123456ss1020@163.com
+          password: xxx
+          default-encoding: UTF-8
+          properties:
+            mail:
+              smtp:
+                auth: true
+                enable: true
+                ssl:
+                  # 设为true时 端口号设为 465 设为false时 端口号设为25
+                  enable: false
+                socketFactory:
+                  class: javax.net.ssl.SSLSocketFactory
+              debug: true
+
+        sender2-163:
+          sender-name: sender2-163
+          host: smtp.163.com
+          port: 25
+          username: ss123456ss1020@163.com
+          password: xxx
+          default-encoding: UTF-8
+          properties:
+            mail:
+              smtp:
+                auth: true
+                enable: true
+                ssl:
+                  # 设为true时 端口号设为 465 设为false时 端口号设为25
+                  enable: false
+                socketFactory:
+                  class: javax.net.ssl.SSLSocketFactory
+              debug: true
 
 logging:
   level:
