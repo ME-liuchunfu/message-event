@@ -1,0 +1,2 @@
+io.github.me.liuchunfu.springboot.event.message.listener.dispatcher.DefaultMessageDispatcher
+io.github.me.liuchunfu.springboot.event.message.listener.dispatcher.EmailMessageDispatcher

@@ -9,6 +9,9 @@
 
 ## 更新说明
 
+-- 2024-12-26:
+v3.0 修改原来的包名，改为github域名：io.github.me.liuchunfu.springboot.event.message
+
 -- 2024-12-24:
 上一个版本才用了自定义线程池 & springboot提供的时间分发机制，v2.0版本取消 springboot事件分发机制，采用Disruptor,jdk升级11
 
@@ -153,7 +156,7 @@ class SpringbooteventApplicationTests {
 ## 2、消息通道
 
 1、系统默认通道: eamil(邮件推送通道)
-2、如果需要自定义通道，将在项目目录：src/main/resources/META-INF/services 下新建 com.spring.bootevent.messageevent.message.listener.dispatcher.MessageDispatcher 文件
+2、如果需要自定义通道，将在项目目录：src/main/resources/META-INF/services 下新建 dispatcher.listener.io.github.me.liuchunfu.springboot.messageevent.message.MessageDispatcher 文件
 ~~~properties
 # 文件内容填写自定义的通道实现类， 该类会被spring自动代理 不需要加@Service、@Component 等注解、目前暂未支持自定义bean名称，目前使用类的 包名+类名 作为bean名称
 xxx.xxxMessageDispatcher
