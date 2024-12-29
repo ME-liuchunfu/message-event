@@ -9,6 +9,9 @@
 
 ## 更新说明
 
+-- 2024-12-29：
+升级springboot 3.3、升级jdk 17、升级spring 6.2.0
+
 -- 2024-12-26:
 v3.0 修改原来的包名，改为github域名：io.github.me.liuchunfu.springboot.event.message
 
