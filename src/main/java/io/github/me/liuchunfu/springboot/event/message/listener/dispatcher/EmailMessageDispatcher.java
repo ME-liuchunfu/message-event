@@ -1,14 +1,15 @@
 package io.github.me.liuchunfu.springboot.event.message.listener.dispatcher;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Document;
+import io.github.me.liuchunfu.springboot.event.message.config.MessageMailMultiSender;
 import io.github.me.liuchunfu.springboot.event.message.event.MessageWrapEvent;
 import io.github.me.liuchunfu.springboot.event.message.exception.MessageAbortExecution;
 import io.github.me.liuchunfu.springboot.event.message.listener.EventChanel;
 import io.github.me.liuchunfu.springboot.event.message.third.email.EmailMessage;
 import io.github.me.liuchunfu.springboot.event.message.third.email.MessageType;
-import io.github.me.liuchunfu.springboot.event.message.config.MessageMailMultiSender;
-import com.vladsch.flexmark.html.HtmlRenderer;
-import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.util.ast.Document;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
@@ -17,7 +18,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
