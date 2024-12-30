@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.me-liuchunfu</groupId>
     <artifactId>springboot.message-event</artifactId>
-    <version>3.0.0-RELEASE</version>
+    <version>3.2.0-RELEASE</version>
     <name>message-event</name>
     <description>message event project for Spring Boot</description>
     <url>https://github.com/ME-liuchunfu/message-event.git</url>
@@ -46,11 +46,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <jackson.version>2.18.0</jackson.version>
-        <springboot-starter.version>2.7.18</springboot-starter.version>
+        <springboot-starter.version>3.3.0</springboot-starter.version>
         <disruptor.version>4.0.0</disruptor.version>
-        <spring-contex-support.version>5.3.39</spring-contex-support.version>
+<!--        <spring-contex-support.version>5.3.39</spring-contex-support.version>-->
+        <spring-contex-support.version>6.2.0</spring-contex-support.version>
         <guava.version>33.4.0-jre</guava.version>
         <flexmark.version>0.64.8</flexmark.version>
     </properties>

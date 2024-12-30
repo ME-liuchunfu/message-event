@@ -7,7 +7,7 @@ import io.github.me.liuchunfu.springboot.event.message.third.email.MarkdownMessa
 import io.github.me.liuchunfu.springboot.event.message.third.email.SimpleMessage;
 import org.junit.jupiter.api.Test;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Date;
 import java.util.UUID;
 
